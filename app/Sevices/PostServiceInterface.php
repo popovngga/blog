@@ -16,7 +16,9 @@ interface PostServiceInterface
      * @param int $categoryId
      * @return Collection
      */
-    public function getPostsByCategory(int $categoryId): Collection;
+    public function getPostsByCategory(int $categoryId): ?Collection;
+
+    public function getCategories(): ?Collection;
 
     /**
      * Get post by ID.
@@ -24,7 +26,7 @@ interface PostServiceInterface
      * @param int $post
      * @return Post
      */
-    public function getPostById(int $post): Post;
+    public function getPostById(int $post): ?Post;
 
     /**
      * Create category.
@@ -46,17 +48,15 @@ interface PostServiceInterface
      * Publishing method.
      *
      * @param Post $post
-     * @param Category $category
      */
-    public function publish(Post $post, Category $category): void;
+    public function publish(Post $post): void;
 
     /**
      * Unpublish method.
      *
      * @param Post $post
-     * @param Category $category
      */
-    public function unPublish(Post $post, Category $category): void;
+    public function unPublish(Post $post): void;
 
     /**
      * Remove post.

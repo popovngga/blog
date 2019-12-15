@@ -7,6 +7,7 @@ namespace App\Sevices;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class PostService implements PostServiceInterface
 {
@@ -16,9 +17,14 @@ class PostService implements PostServiceInterface
      * @param int $categoryId
      * @return Collection
      */
-    public function getPostsByCategory(int $categoryId): Collection
+    public function getPostsByCategory(int $categoryId): ?Collection
     {
-        // TODO: Implement getPostsByCategory() method.
+        /** @var Collection $posts */
+        $categoryPosts = Category::find($categoryId)->with('posts')->first();
+        if (!$categoryPosts) {
+            return null;
+        }
+        return $categoryPosts->posts;
     }
 
     /**
@@ -27,9 +33,9 @@ class PostService implements PostServiceInterface
      * @param int $post
      * @return Post
      */
-    public function getPostById(int $post): Post
+    public function getPostById(int $post): ?Post
     {
-        // TODO: Implement getPostById() method.
+        return Post::find($post);
     }
 
     /**
@@ -40,7 +46,12 @@ class PostService implements PostServiceInterface
      */
     public function createCategory(array $attributes): int
     {
-        // TODO: Implement createCategory() method.
+        $category = new Category();
+        $category->name = $attributes['name'];
+        $category->is_active = true;
+        $category->save();
+
+        return $category->id;
     }
 
     /**
@@ -51,29 +62,50 @@ class PostService implements PostServiceInterface
      */
     public function createPost(array $attributes): int
     {
-        // TODO: Implement createPost() method.
+        $user = Auth::user();
+
+        $post = new Post();
+        $post->title = $attributes['title'];
+        $post->preview = $attributes['preview'];
+        $post->content = $attributes['content'];
+        $post->is_publised = false;
+        $post->poster = $attributes['poster'];
+
+        $category = Category::findOrFail($attributes['category_id']);
+
+        $post->user()->associate($user);
+        $post->category()->associate($category);
+        $post->save();
+
+        return $post->id;
+
+    }
+
+    public function getCategories(): ?Collection
+    {
+        return Category::all();
     }
 
     /**
      * Publishing method.
      *
      * @param Post $post
-     * @param Category $category
      */
-    public function publish(Post $post, Category $category): void
+    public function publish(Post $post): void
     {
-        // TODO: Implement publish() method.
+        $post->is_publised = true;
+        $post->save();
     }
 
     /**
      * Unpublish method.
      *
      * @param Post $post
-     * @param Category $category
      */
-    public function unPublish(Post $post, Category $category): void
+    public function unPublish(Post $post): void
     {
-        // TODO: Implement unPublish() method.
+        $post->is_publised = false;
+        $post->save();
     }
 
     /**

@@ -15,4 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/posts/category/{categoryId}', 'PostController@index');
+Route::get('/post/{postId}', 'PostController@show');
+Route::get('/category/create', 'PostController@create');
+Route::post('/category/create', 'PostController@store');
+
 Auth::routes();
