@@ -67,7 +67,7 @@ interface PostServiceInterface
 
     /**
      * Remove category.
-     * 
+     *
      * @param Category $post
      */
     public function removeCategory(Category $post): void;
