@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Traits\DeletableTrait;
 use App\Sevices\PostServiceInterface;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    use DeletableTrait;
 
     private $postService;
 
@@ -22,7 +25,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = $this->postService->getCategories();
+        return view('category.index', compact('categories'));
     }
 
     /**
@@ -32,7 +36,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('category.create');
     }
 
     /**
@@ -43,7 +47,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $attributes = $request->all();
+        $this->postService->createCategory($attributes);
+
+        return response()->redirectToRoute('list_categories');
     }
 
     /**
@@ -54,7 +61,11 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $category = $this->postService->getCategory($id);
+        if (!$category) {
+            abort(404);
+        }
+        return view('category.show', compact('category'));
     }
 
     /**
@@ -65,7 +76,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $categories = $this->postService->getCategories($id);
+        return view('post.edit', compact('categories'));
     }
 
     /**
@@ -88,6 +100,12 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = $this->postService->getCategory($id);
+
+        $this->delete($category);
+
+        $category->save();
+
+        return back();
     }
 }

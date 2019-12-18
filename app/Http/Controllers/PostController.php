@@ -20,10 +20,10 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($categoryId)
+    public function index()
     {
-        $posts = $this->postService->getPostsByCategory($categoryId);
-        dd($posts);
+        $posts = $this->postService->getPosts(1);
+        return view('post.index', compact('posts'));
     }
 
     /**
@@ -50,12 +50,10 @@ class PostController extends Controller
             'preview' => 'required',
             'content' => 'required',
             'category_id' => 'required|exists:categories,id',
-            'poster' => 'mimes:gif,jpeg,bmp,png'
         ]);
-        $poster = $request->files->get('poster');
         $postData = $request->all();
 
-        $postData['poster'] = $poster->getClientOriginalName();
+        $postData['poster'] = '';
         $postId = $this->postService->createPost($postData);
         return response(redirect('/post/' .  $postId));
     }
@@ -69,7 +67,7 @@ class PostController extends Controller
     public function show($id)
     {
         $post = $this->postService->getPostById($id);
-        dd($post);
+        return view('post.show', compact('post'));
     }
 
     /**
@@ -80,7 +78,10 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = $this->postService->getPostById($id);
+        $categories = $this->postService->getCategories();
+
+        return view('post.edit', compact('post', 'categories'));
     }
 
     /**
@@ -103,6 +104,15 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = $this->postService->getPostById((int)$id);
+        if (!$post) {
+            abort(404);
+        }
+        if ($post->is_publised) {
+            $this->postService->unPublish($post);
+        } else {
+            $this->postService->publish($post);
+        }
+        return back();
     }
 }

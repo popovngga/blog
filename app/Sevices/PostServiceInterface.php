@@ -6,6 +6,7 @@ namespace App\Sevices;
 
 use App\Models\Category;
 use App\Models\Post;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
 interface PostServiceInterface
@@ -16,7 +17,9 @@ interface PostServiceInterface
      * @param int $categoryId
      * @return Collection
      */
-    public function getPostsByCategory(int $categoryId): ?Collection;
+    public function getCategory(int $categoryId): ?Category;
+
+    public function getPosts(int $page, int $perPage = 10): LengthAwarePaginator;
 
     public function getCategories(): ?Collection;
 

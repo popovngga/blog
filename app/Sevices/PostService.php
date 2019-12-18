@@ -6,7 +6,9 @@ namespace App\Sevices;
 
 use App\Models\Category;
 use App\Models\Post;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 class PostService implements PostServiceInterface
@@ -17,15 +19,22 @@ class PostService implements PostServiceInterface
      * @param int $categoryId
      * @return Collection
      */
-    public function getPostsByCategory(int $categoryId): ?Collection
+    public function getCategory(int $categoryId): ?Category
     {
-        /** @var Collection $posts */
-        $categoryPosts = Category::find($categoryId)->with('posts')->first();
-        if (!$categoryPosts) {
+        $category = Category::find($categoryId);
+        if (!$category) {
             return null;
         }
-        return $categoryPosts->posts;
+        return $category;
     }
+
+    public function getPosts(int $page, int $perPage = 5): LengthAwarePaginator
+    {
+        /** @var Model $posts */
+        $posts = Post::paginate($perPage);
+        return $posts;
+    }
+
 
     /**
      * Get post by ID.
