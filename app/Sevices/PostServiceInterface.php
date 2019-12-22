@@ -23,6 +23,8 @@ interface PostServiceInterface
 
     public function getCategories(): ?Collection;
 
+    public function getFeaturedPosts(): ?Collection;
+
     /**
      * Get post by ID.
      *

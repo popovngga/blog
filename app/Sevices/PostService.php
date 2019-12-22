@@ -28,7 +28,7 @@ class PostService implements PostServiceInterface
         return $category;
     }
 
-    public function getPosts(int $page, int $perPage = 5): LengthAwarePaginator
+    public function getPosts(int $page, int $perPage = 10): LengthAwarePaginator
     {
         /** @var Model $posts */
         $posts = Post::paginate($perPage);
@@ -45,6 +45,15 @@ class PostService implements PostServiceInterface
     public function getPostById(int $post): ?Post
     {
         return Post::find($post);
+    }
+
+    public function getFeaturedPosts(): ?Collection
+    {
+        $posts = Post::where('posts.is_publised', true)
+            ->join('categories', 'categories.id', '=', 'posts.category_id')
+            ->limit(3)
+            ->get();
+        return $posts;
     }
 
     /**

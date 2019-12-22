@@ -53,7 +53,9 @@ class PostController extends Controller
         ]);
         $postData = $request->all();
 
-        $postData['poster'] = '';
+        $poster = $request->file('poster')->store('public');
+        $poster = str_replace('public', 'storage', $poster);
+        $postData['poster'] = $poster;
         $postId = $this->postService->createPost($postData);
         return response(redirect('/post/' .  $postId));
     }
