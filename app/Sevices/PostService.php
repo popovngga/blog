@@ -28,7 +28,7 @@ class PostService implements PostServiceInterface
         return $category;
     }
 
-    public function getPosts(int $page, int $perPage = 10): LengthAwarePaginator
+    public function getPosts(int $page, int $perPage = 2): LengthAwarePaginator
     {
         /** @var Model $posts */
         $posts = Post::paginate($perPage);

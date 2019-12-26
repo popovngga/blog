@@ -2,7 +2,7 @@
 /** Posts */
 Route::get('/post/create', 'PostController@create')->name('create_post');
 Route::post('/post/create', 'PostController@store');
-Route::get('/', 'HomeController@index');
+Route::get('/', 'HomeController@index')->name('home');
 Route::get('/posts', 'PostController@index');
 
 Route::get('/post/{postId}', 'PostController@show')->name('show_post');

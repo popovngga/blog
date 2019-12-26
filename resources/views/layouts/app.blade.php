@@ -20,6 +20,8 @@
 
     @yield('main_section')
     @yield('content')
+
+    @include('layouts.footer')
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 </body>
