@@ -24,11 +24,12 @@ class HomeController extends Controller
         $featuredPosts = [];
         foreach ($posts as $key => $post) {
             if ($key === 0) {
-                $bigFeaturedPosts = $post;
+                $bigFeaturePost = $post;
             } else {
                 $featuredPosts['normal'][] = $post;
             }
         }
-        return view('home.index', compact('allPosts', 'featuredPosts','bigFeaturedPosts'));
+
+        return view('home.index', compact('allPosts', 'featuredPosts', 'bigFeaturePost'));
     }
 }

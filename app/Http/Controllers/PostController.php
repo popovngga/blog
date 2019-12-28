@@ -52,7 +52,6 @@ class PostController extends Controller
             'category_id' => 'required|exists:categories,id',
         ]);
         $postData = $request->all();
-
         $poster = $request->file('poster')->store('public');
         $poster = str_replace('public', 'storage', $poster);
         $postData['poster'] = $poster;
@@ -95,7 +94,14 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $postData = $request->all();
+        $post = $this->postService->getPostById($id);
+        $post->title = $postData['title'];
+        $post->preview = $postData['preview'];
+        $post->content = $postData['content'];
+        $post->poster = $postData['poster'];
+        $post->save();
+        return response(redirect('/post/' .  $id));
     }
 
     /**
@@ -106,7 +112,7 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $post = $this->postService->getPostById((int)$id);
+        $post = $this->postService->getPostById((int) $id);
         if (!$post) {
             abort(404);
         }

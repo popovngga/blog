@@ -10,8 +10,7 @@
 
                 <div class="entry__thumb">
                     <a href="{{ route('show_post', ['postId' => $post->id]) }}" class="entry__thumb-link">
-                        <img src="{{ $post->poster }}"
-                             alt="">
+                        <img src="{{ $post->poster }}" alt="">
                     </a>
                 </div>
 
@@ -26,13 +25,13 @@
                     </div>
                     <div class="entry__excerpt">
                         <p>
-                        {{ $post->preview }}
+                            {{ $post->preview }}
                         </p>
                     </div>
                     <div class="entry__meta">
-                            <span class="entry__meta-links">
-                                <a href="{{ route('show_category', $post->category->id) }}"> {{ $post->category->name }}</a>
-                            </span>
+                        <span class="entry__meta-links">
+                            <a href="{{ route('show_category', $post->category->id) }}"> {{ $post->category->name }}</a>
+                        </span>
                     </div>
                 </div>
 
@@ -45,4 +44,3 @@
     {{ $allPosts->links('vendor.pagination.bootstrap-4') }}
 
 </section> <!-- s-content -->
-
