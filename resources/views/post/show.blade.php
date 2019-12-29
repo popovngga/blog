@@ -62,7 +62,11 @@
                                 </div>
                                 @if(\Illuminate\Support\Facades\Auth::user())
                                     @if(\Illuminate\Support\Facades\Auth::user()->id == $comment->user->id)
-                                        <a href="#">Delete comment</a>
+                                    <form method="post" action="{{route('delete_comment', ['postId' => $comment->id])}}">
+                                        @csrf
+                                        {{ method_field('DELETE') }}
+                                        <button type="submit" class="submit btn--primary btn--large full-width">Delete comment</button>
+                                    </form>
                                     @endif
                                 @endif
                             </div>
@@ -79,12 +83,12 @@
 
                         <h3 class="h2">Add Comment</h3>
 
-                        <form name="contactForm" id="contactForm" method="post" action="">
+                        <form name="contactForm" id="contactForm" method="post" action="{{route('create_comment', ['postId' => $post->id])}}">
                             @csrf
                             <fieldset>
 
                                 <div class="message form-field">
-                                    <textarea name="cMessage" id="cMessage" class="full-width" placeholder="Your Message"></textarea>
+                                    <textarea name="comment" id="comment" class="full-width" placeholder="Your Message"></textarea>
                                 </div>
 
                                 <button type="submit" class="submit btn--primary btn--large full-width">Submit</button>

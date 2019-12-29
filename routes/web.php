@@ -18,4 +18,8 @@ Route::post('/category', 'CategoryController@store');
 Route::get('/category/{categoryId}', 'CategoryController@show')->name('show_category');
 Route::delete('/category/{categoryId}', 'CategoryController@destroy')->name('delete_category');
 
+/** Comments */
+Route::post('/post/{postId}/comment', 'CommentsController@store')->name('create_comment');
+Route::delete('/post/{postId}/comment', 'CommentsController@destroy')->name('delete_comment');
+
 Auth::routes();
