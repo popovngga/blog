@@ -28,7 +28,7 @@ class PostService implements PostServiceInterface
         return $category;
     }
 
-    public function getPosts(int $page, int $perPage = 2): LengthAwarePaginator
+    public function getPosts(int $page, int $perPage = 8): LengthAwarePaginator
     {
         /** @var Model $posts */
         $posts = Post::paginate($perPage);
@@ -53,8 +53,21 @@ class PostService implements PostServiceInterface
             ->join('categories', 'categories.id', '=', 'posts.category_id')
             ->limit(3)
             ->get();
+
         return $posts;
     }
+
+    public function getPostByCategory(int $categoryId): ?Collection
+    {
+        Category::findOrFail($categoryId);
+        $postByCategory = Post::where('posts.is_publised', true)
+            ->join('categories', function ($join) use ($categoryId) {
+                $join->on('categories.id', '=', 'posts.category_id')
+                    ->where('categories.id', '=', $categoryId);
+            })->get();
+        return $postByCategory;
+    }
+
 
     /**
      * Create category.
@@ -96,7 +109,6 @@ class PostService implements PostServiceInterface
         $post->save();
 
         return $post->id;
-
     }
 
     public function getCategories(): ?Collection
@@ -145,5 +157,4 @@ class PostService implements PostServiceInterface
     {
         // TODO: Implement removeCategory() method.
     }
-
 }

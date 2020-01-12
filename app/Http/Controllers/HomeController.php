@@ -19,7 +19,10 @@ class HomeController extends Controller
     {
         $posts = $this->postService->getFeaturedPosts();
 
+        $allCategories = $this->postService->getCategories();
+
         $allPosts = $this->postService->getPosts(1);
+
         $bigFeaturePost = null;
         $featuredPosts = [];
         foreach ($posts as $key => $post) {
@@ -30,6 +33,20 @@ class HomeController extends Controller
             }
         }
 
-        return view('home.index', compact('allPosts', 'featuredPosts', 'bigFeaturePost'));
+
+        return view(
+            'home.index',
+            compact(
+                'allPosts',
+                'featuredPosts',
+                'bigFeaturePost',
+                'allCategories',
+            )
+        );
+    }
+    public function redirectToCategory(int $categoryId)
+    {
+        $postsByCategory = $this->postService->getPostByCategory($categoryId);
+        return view('home.postsById', compact('postsByCategory'));
     }
 }

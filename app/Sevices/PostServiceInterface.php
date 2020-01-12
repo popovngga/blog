@@ -25,6 +25,8 @@ interface PostServiceInterface
 
     public function getFeaturedPosts(): ?Collection;
 
+    public function getPostByCategory(int $categoryId): ?Collection;
+
     /**
      * Get post by ID.
      *

@@ -37,7 +37,7 @@
 
                 <a href="#0" title="Close Search" class="header__overlay-close">Close</a>
 
-            </div>  <!-- end header__search -->
+            </div> <!-- end header__search -->
 
 
             <a class="header__toggle-menu" href="#0" title="Menu"><span>Menu</span></a>
