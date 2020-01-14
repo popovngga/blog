@@ -15,7 +15,7 @@
     </textarea>
 
     <label for="content">Content</label>
-    <textarea name="content" id="content"></textarea>
+    <textarea name="content" id="content"> {{ $post->content }}</textarea>
     <label for="category">Category</label>
 
     <select name="category_id" id="category">

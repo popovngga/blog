@@ -47,7 +47,7 @@
                 <h2 class="header__nav-heading h6">Site Navigation</h2>
 
                 <ul class="header__nav">
-                    <li class="current"><a href="index.html" title="">Home</a></li>
+                    <li class="current"><a href="{{route('home')}}" title="">Home</a></li>
                     <li class="has-children">
                         <a href="#0" title="">Categories</a>
                         <ul class="sub-menu">
@@ -59,6 +59,7 @@
                             <li><a href="category.html">Work</a></li>
                         </ul>
                     </li>
+
                     <li class="has-children">
                         <a href="#0" title="">Blog</a>
                         <ul class="sub-menu">
