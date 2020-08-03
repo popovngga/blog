@@ -6,6 +6,7 @@ use App\Sevices\PostService;
 use App\Sevices\PostServiceInterface;
 use App\Sevices\CommentService;
 use App\Sevices\CommentServiceInterface;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -28,6 +29,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Schema::defaultStringLength(191);
     }
 }
