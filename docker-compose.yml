@@ -42,7 +42,7 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - "3307:3307"
+      - 3306:3306
     environment:
       MYSQL_DATABASE: padilo00_dockertest
       MYSQL_ROOT_PASSWORD: 2u6)Ad&Vz8
@@ -63,6 +63,20 @@ services:
     image: docker.elastic.co/kibana/kibana:7.6.2
     ports:
       - 5601:5601
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    command:
+      - '--save 900 1'
+      - '--save 300 10'
+      - '--save 60 10000'
+      - '--maxmemory ${REDIS_MAXMEM:-50mb}'
+      - '--maxmemory-policy ${REDIS_POLICY:-noeviction}'
+    volumes:
+      - ./redis/data:/data
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+    entrypoint: redis-server /usr/local/etc/redis/redis.conf
 #Docker Networks
 networks:
   app-network:
